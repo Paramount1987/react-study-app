@@ -1,8 +1,24 @@
 import React, {Component, PureComponent}    from 'react';
 import findDOMNode from 'react-dom';
 import PropTypes    from 'prop-types';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import CommentList  from './Comments/CommentList';
+
+const Fade = ({ children, ...props }) => (
+    <CSSTransition
+        {...props}
+        timeout={{
+             enter: 1000,
+             exit: 900,
+            }}
+        appear={true}
+        unmountOnExit={true}
+        classNames="fade"
+    >
+        {children}
+    </CSSTransition>
+);
 
 class Article extends PureComponent {
     static propTypes = {
@@ -17,9 +33,9 @@ class Article extends PureComponent {
         const {article, isOpen, toggleOpen} = this.props;
 
         return (
-            <div ref = {this.setContainerRef}>
+            <div ref={this.setContainerRef}>
                 <h3>{article.title}!</h3>
-                <button onClick = {toggleOpen}>
+                <button onClick={toggleOpen}>
                     {isOpen ? 'Close' : 'Open'}
                 </button>
                 {this.getBody()}
@@ -39,12 +55,16 @@ class Article extends PureComponent {
     getBody() {
         const {article, isOpen} = this.props;
 
-        if(!isOpen) return null;
+       // if (!isOpen) return null;
 
-        return <section>
-            {article.text}
-            <CommentList comments = {article.comments} ref= {this.setCommentRef} />
-        </section>;
+        return (
+            <Fade in={isOpen}>
+                <section>
+                    {article.text}
+                    <CommentList comments={article.comments} ref={this.setCommentRef}/>
+                </section>
+            </Fade>
+        )
     }
 }
 

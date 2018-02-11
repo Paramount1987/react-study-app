@@ -14,7 +14,7 @@ class CommentList extends Component {
 
         return (
             <div>
-                <button onClick = {toggleOpen}>
+                <button onClick={toggleOpen}>
                     {isOpen ? 'Close comments' : 'Open comments'}
                 </button>
                 {commentsList}
@@ -25,13 +25,13 @@ class CommentList extends Component {
     renderCommentList() {
         const {comments, isOpen} = this.props;
 
-        if(!isOpen) return null;
+        if (!isOpen) return null;
 
-        if(!comments.length) return <p>No comments yet</p>;
+        if (!comments.length) return <p>No comments yet</p>;
 
         return (
             <ul>
-                {comments.map((comment) => <li key = {comment.id}><Comment comment = {comment} /></li>)}
+                {comments.map((comment) => <li key={comment.id}><Comment comment={comment}/></li>)}
             </ul>
         )
     }
