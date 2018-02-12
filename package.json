@@ -7,9 +7,11 @@
     "react": "15",
     "react-day-picker": "^7.0.7",
     "react-dom": "15",
+    "react-redux": "^5.0.6",
     "react-scripts": "1.1.0",
     "react-select": "^1.0.0-rc.5",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^2.2.1",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
