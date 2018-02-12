@@ -2,6 +2,7 @@ import React, {Component}   from 'react';
 import toggleOpen   from '../decorators/toggleOpen';
 
 import Comment  from './Comment';
+import CommentForm  from './CommentForm';
 
 class CommentList extends Component {
     static defaultProps = {
@@ -30,9 +31,12 @@ class CommentList extends Component {
         if (!comments.length) return <p>No comments yet</p>;
 
         return (
-            <ul>
-                {comments.map((comment) => <li key={comment.id}><Comment comment={comment}/></li>)}
-            </ul>
+            <div>
+                <CommentForm />
+                <ul>
+                    {comments.map((comment) => <li key={comment.id}><Comment comment={comment}/></li>)}
+                </ul>
+            </div>
         )
     }
 }

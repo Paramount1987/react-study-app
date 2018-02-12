@@ -5,23 +5,13 @@ import './App.css'
 import  Header  from './components/Header'
 import ArticleList   from './components/ArticleList'
 import UserForm from './components/UserForm'
-import Select   from 'react-select'
-import 'react-select/dist/react-select.css'
+import Filter   from './components/Filters'
 
 import {articles}   from './data/fixtures'
 
 class App extends Component {
 
-    state = {
-        selection: null
-    }
-
     render() {
-        const options = articles.map(article => ({
-           label: article.title,
-           value: article.id
-        }))
-
         return (
             <div className="App">
                 <header className="App-header">
@@ -29,17 +19,13 @@ class App extends Component {
                     <Header />
                 </header>
                 <div>
-                    <Select options={options}
-                            multi
-                            value= {this.state.selection} onChange={this.changeSelection} />
                     <UserForm />
+                    <Filter articles={articles} />
                     <ArticleList articles={articles}/>
                 </div>
             </div>
         );
     }
-
-    changeSelection = (select) => this.setState({selection: select})
 }
 
 export default App;
