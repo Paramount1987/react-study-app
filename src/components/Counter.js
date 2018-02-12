@@ -23,7 +23,6 @@ Counter.propTypes = {
     counter: PropTypes.number,
     increment: PropTypes.func.isRequired
 };
-Counter.defaultProps = {};
 
 function mapStateToProps(state) {
     return {
@@ -31,6 +30,6 @@ function mapStateToProps(state) {
     }
 }
 
-const mapToDispatch= {increment};
+const mapToDispatch = {increment};
 
 export default connect(mapStateToProps, mapToDispatch)(Counter);

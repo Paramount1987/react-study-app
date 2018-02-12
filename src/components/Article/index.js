@@ -1,6 +1,8 @@
 import React, {Component, PureComponent}    from 'react';
 import findDOMNode from 'react-dom';
 import PropTypes    from 'prop-types';
+import {connect}    from 'react-redux';
+import {deleteArticle}   from '../../AC';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import CommentList  from '../Comments/CommentList';
@@ -39,9 +41,15 @@ class Article extends PureComponent {
                 <button onClick={toggleOpen}>
                     {isOpen ? 'Close' : 'Open'}
                 </button>
+                <button onClick={this.handleDelete}>Delete me</button>
                 {this.getBody()}
             </div>
         )
+    }
+
+    handleDelete = () => {
+        const {deleteArticle, article} = this.props;
+        deleteArticle(article.id);
     }
 
     setContainerRef = ref => {
@@ -69,4 +77,4 @@ class Article extends PureComponent {
     }
 }
 
-export default Article;
+export default connect(null, {deleteArticle})(Article);

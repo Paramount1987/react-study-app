@@ -8,8 +8,6 @@ import UserForm from './components/UserForm'
 import Filter   from './components/Filters'
 import Counter  from './components/Counter'
 
-import {articles}   from './data/fixtures'
-
 class App extends Component {
 
     render() {
@@ -22,8 +20,8 @@ class App extends Component {
                 <div>
                     <Counter />
                     <UserForm />
-                    <Filter articles={articles} />
-                    <ArticleList articles={articles}/>
+                    <Filter articles={[]} />
+                    <ArticleList/>
                 </div>
             </div>
         );
