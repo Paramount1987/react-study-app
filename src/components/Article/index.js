@@ -3,7 +3,8 @@ import findDOMNode from 'react-dom';
 import PropTypes    from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
-import CommentList  from './Comments/CommentList';
+import CommentList  from '../Comments/CommentList';
+import './style.css';
 
 const Fade = ({ children, ...props }) => (
     <CSSTransition

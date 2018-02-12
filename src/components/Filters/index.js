@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DayPicker    from './DayPicker';
+import DayPickerControl    from './DayPicker';
 import SelectControl   from './Select';
 
 class Filter extends Component {
@@ -9,7 +9,7 @@ class Filter extends Component {
         return (
             <div>
                 <SelectControl articles={articles} />
-                <DayPicker />
+                <DayPickerControl />
             </div>
         );
     }
