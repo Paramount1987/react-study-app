@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes    from 'prop-types';
 import {connect}    from 'react-redux';
+import {commentSelectorFactory}   from '../../selectors';
 
 function Comment({comment}) {
     return (
@@ -20,8 +21,14 @@ Comment.propTypes = {
     }).isRequired
 }
 
-export default connect((state, ownProps) => {
-    return {
-        comment: state.comments.find(comment => comment.id === ownProps.id)
+const mapStateToProps = () => {
+    const commentSelector = commentSelectorFactory();
+
+    return (state, ownProps) => {
+        return {
+            comment: commentSelector(state, ownProps)
+        }
     }
-})(Comment);
+}
+
+export default connect(mapStateToProps)(Comment);
