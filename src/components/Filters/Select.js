@@ -4,28 +4,38 @@ import PropTypes from 'prop-types';
 import Select   from 'react-select';
 import 'react-select/dist/react-select.css';
 
+import {connect}   from 'react-redux';
+import {updateFilter}   from '../../AC';
+
 class SelectControl extends Component {
-    state = {
-        selection: null
-    }
 
     render() {
-        const options = this.props.articles.map(article => ({
+        const {articles, filterByValue} = this.props;
+        const options = articles.map(article => ({
             label: article.title,
             value: article.id
         }));
 
         return (
-            <Select options={options}
-                    multi
-                    value= {this.state.selection} onChange={this.changeSelection} />
+            <Select options={options} multi
+                    value= {filterByValue} onChange={this.changeSelection} />
         );
     }
 
-    changeSelection = (select) => this.setState({selection: select})
+    changeSelection = (select) => {
+        const values = select.map((item) => item.value);
+        this.props.updateFilter({ filterByValue: values});
+    }
 }
 
-SelectControl.propTypes = {};
+SelectControl.propTypes = {
+    articles: PropTypes.array.isRequired,
+    filterByValue: PropTypes.array.isRequired,
+    updateFilter: PropTypes.func.isRequired
+};
 SelectControl.defaultProps = {};
 
-export default SelectControl;
+export default connect(state => ({
+    articles: state.articles,
+    filterByValue: state.filters.filterByValue
+}),{updateFilter})(SelectControl);

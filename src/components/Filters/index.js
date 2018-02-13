@@ -5,10 +5,9 @@ import SelectControl   from './Select';
 
 class Filter extends Component {
     render() {
-        const {articles} = this.props;
         return (
             <div>
-                <SelectControl articles={articles} />
+                <SelectControl />
                 <DayPickerControl />
             </div>
         );
