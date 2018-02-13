@@ -1,7 +1,12 @@
 import {normalizedComments as defaultComments}   from '../data/fixtures';
 import {} from '../constants';
 
-export default (commentsState = defaultComments, action) => {
+const commentMap = defaultComments.reduce((acc, comment) => {
+    acc[comment.id] = comment;
+    return acc;
+}, {});
+
+export default (commentsState = commentMap, action) => {
     const {type, payload} = action;
 
     switch (type) {
