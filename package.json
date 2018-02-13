@@ -11,7 +11,8 @@
     "react-scripts": "1.1.0",
     "react-select": "^1.0.0-rc.5",
     "react-transition-group": "^2.2.1",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "reselect": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

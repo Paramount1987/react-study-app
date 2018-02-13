@@ -1,7 +1,7 @@
 import React, {Component}    from 'react';
 import Article from './Article';
 import PropTypes    from 'prop-types';
-import moment   from 'moment';
+import {filterArticlesSelector}   from '../selectors';
 
 import accordion from './decorators/accordion';
 import {connect}    from 'react-redux';
@@ -35,20 +35,8 @@ class ArticleList extends Component {
     }
 }
 
-export default connect(({filters, articles}) => {
-    const {filterByValue} = filters;
-    const {from, to} = filters.date;
-    const timeFrom = moment(from);
-    const timeTo = moment(to);
-
-    const filteredArticles = articles.filter(article => {
-        const articleTime = moment(article.date);
-
-        return (!filterByValue.length || filterByValue.includes(article.id)) &&
-            (!from || !to || (articleTime.diff(timeFrom) > 0 && articleTime.diff(timeTo) < 0))
-    });
-
+export default connect((state) => {
     return {
-        articles: filteredArticles
+        articles: filterArticlesSelector(state)
     }
 })(accordion(ArticleList));
