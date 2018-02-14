@@ -38,6 +38,6 @@ SelectControl.propTypes = {
 SelectControl.defaultProps = {};
 
 export default connect(state => ({
-    articles: mapToArr(state.articles),
+    articles: mapToArr(state.articles.entities),
     filterByValue: state.filters.filterByValue
 }), {updateFilter})(SelectControl);
