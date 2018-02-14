@@ -26,7 +26,7 @@ const Fade = ({ children, ...props }) => (
 class Article extends PureComponent {
     static propTypes = {
         article: PropTypes.shape({
-            id: PropTypes.string.isRequired,
+            id: PropTypes.number.isRequired,
             title: PropTypes.string.isRequired,
             text: PropTypes.string
         }).isRequired
@@ -58,11 +58,10 @@ class Article extends PureComponent {
 
     setContainerRef = ref => {
         this.container = ref;
-        console.log(this.container);
     }
 
     setCommentRef = ref => {
-        console.log(ref);
+        console.log();
     }
 
     getBody() {
