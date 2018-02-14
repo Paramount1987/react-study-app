@@ -6,11 +6,13 @@ import 'react-select/dist/react-select.css';
 
 import {connect}   from 'react-redux';
 import {updateFilter}   from '../../AC';
+import {mapToArr}   from '../../helpers';
 
 class SelectControl extends Component {
 
     render() {
         const {articles, filterByValue} = this.props;
+
         const options = articles.map(article => ({
             label: article.title,
             value: article.id
@@ -18,13 +20,13 @@ class SelectControl extends Component {
 
         return (
             <Select options={options} multi
-                    value= {filterByValue} onChange={this.changeSelection} />
+                    value={filterByValue} onChange={this.changeSelection}/>
         );
     }
 
     changeSelection = (select) => {
         const values = select.map((item) => item.value);
-        this.props.updateFilter({ filterByValue: values});
+        this.props.updateFilter({filterByValue: values});
     }
 }
 
@@ -36,6 +38,6 @@ SelectControl.propTypes = {
 SelectControl.defaultProps = {};
 
 export default connect(state => ({
-    articles: state.articles,
+    articles: mapToArr(state.articles),
     filterByValue: state.filters.filterByValue
-}),{updateFilter})(SelectControl);
+}), {updateFilter})(SelectControl);

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect}   from 'react-redux';
+import {addComment}   from '../../AC';
 
 import './index.css';
 
 class CommentForm extends Component {
     state = {
         user: '',
-        comment: '',
+        text: '',
     };
 
     render() {
-        const {user, comment} = this.state;
+        const {user, text} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -23,10 +25,10 @@ class CommentForm extends Component {
                 </div>
                 <div>Comment:
                     <textarea
-                        className={'form-input ' + this.getClassName('comment')}
+                        className={'form-input ' + this.getClassName('text')}
                         cols="30" rows="10"
-                        value={comment}
-                        onChange={this.handleChange('comment')} />
+                        value={text}
+                        onChange={this.handleChange('text')} />
                 </div>
                 <button type="submit">Send comment</button>
             </form>
@@ -34,10 +36,11 @@ class CommentForm extends Component {
     }
 
     handleSubmit = ev => {
-        ev.preventDefault()
+        ev.preventDefault();
+        this.props.addComment(this.state, this.props.articleId);
         this.setState({
             user: '',
-            comment: ''
+            text: ''
         });
     }
 
@@ -59,7 +62,7 @@ const limits = {
         min: 5,
         max: 15
     },
-    comment: {
+    text: {
         min: 20,
         max: 50
     }
@@ -68,4 +71,10 @@ const limits = {
 CommentForm.propTypes = {};
 CommentForm.defaultProps = {};
 
-export default CommentForm;
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addComment: (comment) => dispatch(addComment(comment, ownProps.articleId))
+    };
+};
+
+export default connect(null,{addComment})(CommentForm);

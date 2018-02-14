@@ -32,6 +32,10 @@ class Article extends PureComponent {
         }).isRequired
     };
 
+    state = {
+        updateIndex: 0
+    }
+
     render() {
         const {article, isOpen, toggleOpen} = this.props;
 
@@ -70,7 +74,8 @@ class Article extends PureComponent {
             <Fade in={isOpen}>
                 <section>
                     {article.text}
-                    <CommentList comments={article.comments} ref={this.setCommentRef}/>
+                    <button onClick={() => this.setState({updateIndex: this.state.updateIndex + 1})}>update</button>
+                    <CommentList article={article} ref={this.setCommentRef} key = {this.state.updateIndex} />
                 </section>
             </Fade>
         )

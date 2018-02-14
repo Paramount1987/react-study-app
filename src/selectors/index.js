@@ -1,5 +1,6 @@
 import moment   from 'moment';
 import {createSelector}   from 'reselect';
+import {mapToArr}   from './../helpers';
 
 const filtersGetter = state => state.filters;
 const articlesGetter = state => state.articles;
@@ -12,7 +13,7 @@ export const filterArticlesSelector = createSelector(filtersGetter, articlesGett
     const timeFrom = moment(from);
     const timeTo = moment(to);
 
-    return articles.filter(article => {
+    return mapToArr(articles).filter(article => {
         const articleTime = moment(article.date);
 
         return (!filterByValue.length || filterByValue.includes(article.id)) &&

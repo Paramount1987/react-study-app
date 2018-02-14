@@ -6,12 +6,12 @@ import CommentForm  from './CommentForm';
 
 class CommentList extends Component {
     static defaultProps = {
-        comments: []
+        article: {}
     };
 
     render() {
-        const {isOpen, toggleOpen} = this.props;
-        const commentsList = this.renderCommentList();
+        const {isOpen, toggleOpen, article} = this.props;
+        const commentsList = this.renderCommentList(article, isOpen);
 
         return (
             <div>
@@ -23,16 +23,21 @@ class CommentList extends Component {
         )
     }
 
-    renderCommentList() {
-        const {comments, isOpen} = this.props;
-
+    renderCommentList({comments = [], id}, isOpen) {
         if (!isOpen) return null;
 
-        if (!comments.length) return <p>No comments yet</p>;
+        if (!comments.length) {
+            return (
+                <div>
+                    <p>No comments yet</p>
+                    <CommentForm articleId={id}/>
+                </div>
+            )
+        }
 
         return (
             <div>
-                <CommentForm />
+                <CommentForm articleId={id}/>
                 <ul>
                     {comments.map((id) => <li key={id}><Comment id={id}/></li>)}
                 </ul>
