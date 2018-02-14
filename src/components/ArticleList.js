@@ -14,7 +14,7 @@ class ArticleList extends Component {
         //from connect
         articles: PropTypes.array,
         //from accordion
-        openItemId: PropTypes.string,
+        openItemId: PropTypes.number,
         toggleOpen: PropTypes.func.isRequired
     };
 

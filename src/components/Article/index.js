@@ -2,8 +2,9 @@ import React, {Component, PureComponent}    from 'react';
 import findDOMNode from 'react-dom';
 import PropTypes    from 'prop-types';
 import {connect}    from 'react-redux';
-import {deleteArticle}   from '../../AC';
+import {deleteArticle, loadArticle}   from '../../AC';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import Loader   from '../Loader';
 
 import CommentList  from '../Comments/CommentList';
 import './style.css';
@@ -26,14 +27,19 @@ const Fade = ({ children, ...props }) => (
 class Article extends PureComponent {
     static propTypes = {
         article: PropTypes.shape({
-            id: PropTypes.number.isRequired,
+            //id: PropTypes.number.isRequired,
             title: PropTypes.string.isRequired,
-            text: PropTypes.string
+            body: PropTypes.string
         }).isRequired
     };
 
     state = {
         updateIndex: 0
+    };
+
+    componentWillReceiveProps({isOpen, loadArticle, article}) {
+        // !article.body && !this.props.isOpen
+        if(isOpen && !article.body && !article.loading) loadArticle(article.id);
     }
 
     render() {
@@ -65,20 +71,22 @@ class Article extends PureComponent {
     }
 
     getBody() {
-        const {article, isOpen} = this.props;
+        const {article, isOpen } = this.props;
+        console.log('loading: ', article.loading);
 
-       // if (!isOpen) return null;
+        if (!isOpen) return null;
+        if(article.loading) return <Loader />;
 
         return (
-            <Fade in={isOpen}>
+           <Fade in={isOpen}>
                 <section>
-                    {article.text}
+                    {article.body}
                     <button onClick={() => this.setState({updateIndex: this.state.updateIndex + 1})}>update</button>
                     <CommentList article={article} ref={this.setCommentRef} key = {this.state.updateIndex} />
                 </section>
-            </Fade>
+           </Fade>
         )
     }
 }
 
-export default connect(null, {deleteArticle})(Article);
+export default connect(null, {deleteArticle, loadArticle})(Article);
