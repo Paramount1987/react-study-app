@@ -39,9 +39,10 @@ class Article extends PureComponent {
 
     componentWillReceiveProps({isOpen, loadArticle, article}) {
         // !article.body && !this.props.isOpen
-        if(isOpen && !article.body && !article.loading) loadArticle(article.id);
+        if(isOpen && !article.loaded && !article.loading) loadArticle(article.id);
     }
 
+    
     render() {
         const {article, isOpen, toggleOpen} = this.props;
 
@@ -82,7 +83,7 @@ class Article extends PureComponent {
                 <section>
                     {article.body}
                     <button onClick={() => this.setState({updateIndex: this.state.updateIndex + 1})}>update</button>
-                    <CommentList article={article} ref={this.setCommentRef} key = {this.state.updateIndex} />
+                    <CommentList articleId={article.id} ref={this.setCommentRef} key = {this.state.updateIndex} />
                 </section>
            </Fade>
         )

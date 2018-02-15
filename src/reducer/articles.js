@@ -8,6 +8,7 @@ const ArticleRecord = Immutable.Record({
     title: '',
     id: null,
     loading: false,
+    loaded: false,
     comments: []
 });
 
@@ -36,7 +37,9 @@ export default (articlesState = defaultState, action) => {
             return articlesState.setIn(['entities', payload.id, 'loading'], true);
 
         case LOAD_ARTICLE + SUCCESS:
-            return articlesState.setIn(['entities', payload.id], new ArticleRecord(payload.response));
+            return articlesState
+                .setIn(['entities', payload.id], new ArticleRecord(payload.response))
+                .setIn(['entities', payload.id, 'loaded'], true);
 
         case DELETE_ARTICLE:
             return articlesState.deleteIn(['entities', payload.id]);

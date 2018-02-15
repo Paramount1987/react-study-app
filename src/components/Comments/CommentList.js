@@ -1,17 +1,25 @@
 import React, {Component}   from 'react';
+import {connect}    from 'react-redux';
 import toggleOpen   from '../decorators/toggleOpen';
 
 import Comment  from './Comment';
 import CommentForm  from './CommentForm';
 
+import {loadComments}   from '../../AC';
+import {commentsSelector}   from '../../selectors';
+
+import Loader   from '../Loader';
+
 class CommentList extends Component {
-    static defaultProps = {
-        article: {}
-    };
+
+    componentWillReceiveProps({isOpen, articleId, comments}) {
+        if(isOpen && !comments.get(articleId)) this.props.loadComments(articleId);
+    }
 
     render() {
-        const {isOpen, toggleOpen, article} = this.props;
-        const commentsList = this.renderCommentList(article, isOpen);
+
+        const {isOpen, toggleOpen, articleId, comments} = this.props;
+        const commentsList = this.renderCommentList(comments, articleId, isOpen);
 
         return (
             <div>
@@ -23,27 +31,37 @@ class CommentList extends Component {
         )
     }
 
-    renderCommentList({comments = [], id}, isOpen) {
-        if (!isOpen) return null;
+    renderCommentList(comments, articleId, isOpen) {
+        const commentsMap = comments.get(articleId);
 
-        if (!comments.length) {
+        if (!commentsMap || !isOpen) return null;
+
+        if(commentsMap.loading) return <Loader />;
+
+        if (commentsMap.items && !commentsMap.items.length) {
+            console.log('commnets length',commentsMap.items);
             return (
                 <div>
                     <p>No comments yet</p>
-                    <CommentForm articleId={id}/>
+                    <CommentForm articleId={articleId} />
                 </div>
             )
         }
-
+        console.log('commnets length',commentsMap.items);
         return (
             <div>
-                <CommentForm articleId={id}/>
+                <CommentForm articleId={articleId} />
                 <ul>
-                    {comments.map((id) => <li key={id}><Comment id={id}/></li>)}
+                    {commentsMap.items.map((comment) => <li key={comment.id}><Comment comment={comment}/></li>)}
                 </ul>
             </div>
         )
     }
 }
 
-export default toggleOpen(CommentList);
+export default connect(state => {
+    return {
+        comments: state.comments
+        //comments: commentsSelector(state)
+    }
+},{loadComments})(toggleOpen(CommentList));

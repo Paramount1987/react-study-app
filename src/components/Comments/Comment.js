@@ -6,18 +6,16 @@ import {commentSelectorFactory}   from '../../selectors';
 function Comment({comment}) {
     return (
         <div>
-            <h4>{comment.user}</h4>
-            <p>{comment.text}</p>
+            <h4>{comment.name}</h4>
+            <p>{comment.body}</p>
         </div>
     )
 }
 
 Comment.propTypes = {
-    id: PropTypes.string.isRequired,
-    // from connect
     comment: PropTypes.shape({
-        text: PropTypes.string.isRequired,
-        user: PropTypes.string.isRequired
+        name: PropTypes.string.isRequired,
+        body: PropTypes.string.isRequired
     }).isRequired
 }
 
@@ -31,4 +29,4 @@ const mapStateToProps = () => {
     }
 }
 
-export default connect(mapStateToProps)(Comment);
+export default Comment;

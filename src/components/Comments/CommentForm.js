@@ -7,28 +7,28 @@ import './index.css';
 
 class CommentForm extends Component {
     state = {
-        user: '',
-        text: '',
+        name: '',
+        body: '',
     };
 
     render() {
-        const {user, text} = this.state;
+        const {name, body} = this.state;
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <div>User name:
                     <input
-                        className={'form-input ' + this.getClassName('user')}
+                        className={'form-input ' + this.getClassName('name')}
                         type="text"
-                        value={user}
-                        onChange={this.handleChange('user')} />
+                        value={name}
+                        onChange={this.handleChange('name')} />
                 </div>
                 <div>Comment:
                     <textarea
-                        className={'form-input ' + this.getClassName('text')}
+                        className={'form-input ' + this.getClassName('body')}
                         cols="30" rows="10"
-                        value={text}
-                        onChange={this.handleChange('text')} />
+                        value={body}
+                        onChange={this.handleChange('body')} />
                 </div>
                 <button type="submit">Send comment</button>
             </form>
@@ -39,8 +39,8 @@ class CommentForm extends Component {
         ev.preventDefault();
         this.props.addComment(this.state, this.props.articleId);
         this.setState({
-            user: '',
-            text: ''
+            name: '',
+            body: ''
         });
     }
 
@@ -58,11 +58,11 @@ class CommentForm extends Component {
 }
 
 const limits = {
-    user: {
+    name: {
         min: 5,
         max: 15
     },
-    text: {
+    body: {
         min: 20,
         max: 50
     }
