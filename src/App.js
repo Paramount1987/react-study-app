@@ -3,7 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 
 import  Header  from './components/Header'
-import ArticleList   from './components/ArticleList'
+import Articles   from './components/routes/Articles'
 import UserForm from './components/UserForm'
 import Filter   from './components/Filters'
 import Counter  from './components/Counter'
@@ -29,7 +29,7 @@ class App extends Component {
 
                     <Route path = "/counter" component = {Counter} />
                     <Route path = "/filter" component = {Filter} />
-                    <Route path = "/articles" component = {ArticleList} />
+                    <Route path = "/articles" component = {Articles} />
                 </div>
             </Router>
         );

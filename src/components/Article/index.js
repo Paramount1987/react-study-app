@@ -26,25 +26,29 @@ const Fade = ({ children, ...props }) => (
 
 class Article extends PureComponent {
     static propTypes = {
+        id: PropTypes.string.isRequired,
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func,
+        // from connect
         article: PropTypes.shape({
-            //id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
+            title: PropTypes.string,
             body: PropTypes.string
-        }).isRequired
+        })
     };
 
     state = {
         updateIndex: 0
     };
 
-    componentWillReceiveProps({isOpen, loadArticle, article}) {
+    componentDidMount() {
+        const {loadArticle, article, id} = this.props;
         // !article.body && !this.props.isOpen
-        if(isOpen && !article.loaded && !article.loading) loadArticle(article.id);
+        if(!article || (!article.loading && !article.loaded)) loadArticle(1*id);
     }
-
     
     render() {
         const {article, isOpen, toggleOpen} = this.props;
+        if(!article) return null;
 
         return (
             <div ref={this.setContainerRef}>
@@ -73,7 +77,6 @@ class Article extends PureComponent {
 
     getBody() {
         const {article, isOpen } = this.props;
-        console.log('loading: ', article.loading);
 
         if (!isOpen) return null;
         if(article.loading) return <Loader />;
@@ -90,4 +93,6 @@ class Article extends PureComponent {
     }
 }
 
-export default connect(null, {deleteArticle, loadArticle})(Article);
+export default connect((state, ownProps) => ({
+    article: state.articles.entities.get(1*ownProps.id)
+}), {deleteArticle, loadArticle})(Article);

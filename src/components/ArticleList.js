@@ -1,5 +1,4 @@
 import React, {Component}    from 'react';
-import Article from './Article';
 import PropTypes    from 'prop-types';
 import {filterArticlesSelector}   from '../selectors';
 
@@ -8,6 +7,7 @@ import {connect}    from 'react-redux';
 import {loadAllArticles}   from '../AC';
 
 import Loader   from './Loader';
+import {NavLink}   from 'react-router-dom';
 
 class ArticleList extends Component {
     static propTypes = {
@@ -15,7 +15,7 @@ class ArticleList extends Component {
         articles: PropTypes.array,
         //from accordion
         openItemId: PropTypes.number,
-        toggleOpen: PropTypes.func.isRequired
+        toggleOpen: PropTypes.func
     };
 
     static defaultProps = {
@@ -28,19 +28,19 @@ class ArticleList extends Component {
     }
 
     render() {
-        const {openItemId, toggleOpen, articles, loading} = this.props;
+        const {articles, loading} = this.props;
 
         if(loading) return <Loader />;
 
         const articleElements = articles.map((article) => <li key = {article.id}>
-            <Article
-                article = {article}
-                isOpen = {article.id === openItemId}
-                toggleOpen = {toggleOpen(article.id)}
-            />
+            <NavLink to = {`/articles/${article.id}`} activeClassName="selected">
+                {article.title}
+            </NavLink>
         </li> );
         return (
-            <ul> {articleElements}</ul>
+            <div>
+                <ul>{articleElements}</ul>
+            </div>
         )
     }
 }
@@ -51,4 +51,4 @@ export default connect((state) => {
         loading: state.articles.loading,
         loaded: state.articles.loaded
     }
-}, {loadAllArticles})(accordion(ArticleList));
+}, {loadAllArticles})(ArticleList);
