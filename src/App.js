@@ -15,6 +15,8 @@ import {Switch, Route, NavLink}   from 'react-router-dom'
 import {ConnectedRouter}   from 'react-router-redux'
 import history  from './history'
 
+import LangProvider from './LangProvider'
+
 class App extends Component {
     static childContextTypes = {
         user: PropTypes.string
@@ -27,37 +29,46 @@ class App extends Component {
     }
 
     state = {
-        username: ''
+        username: '',
+        language: 'ru'
     }
 
     render() {
         return (
-            <ConnectedRouter history = {history}>
-                <div className="App">
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo"/>
-                        <Header />
-                    </header>
-                    <UserForm value = {this.state.username} onChange = {this.handleUserChange} />
-                    <nav>
-                        <h2>Main menu</h2>
-                        <div><NavLink to="/counter" activeClassName="selected">Counter</NavLink></div>
-                        <div><NavLink to="/filter" activeClassName="selected">Filter</NavLink></div>
-                        <div><NavLink to="/articles" activeClassName="selected">Articles</NavLink></div>
-                    </nav>
-                    <Switch>
-                        <Route path = "/counter" component = {Counter} />
-                        <Route path = "/filter" component = {Filter} />
-                        <Route path = "/articles/new" component = {NewArticle} />
-                        <Route path = "/articles" component = {Articles} />
-                        <Route path = "*" component = {NotFound} />
-                    </Switch>
-                </div>
+            <ConnectedRouter history={history}>
+                <LangProvider language={this.state.language}>
+                    <div className="App">
+                        <header className="App-header">
+                            <img src={logo} className="App-logo" alt="logo"/>
+                            <Header />
+                        </header>
+                        <UserForm value={this.state.username} onChange={this.handleUserChange}/>
+                        <ul>
+                            <li onClick={this.changeLanguage('en')}>English</li>
+                            <li onClick={this.changeLanguage('ru')}>Russian</li>
+                        </ul>
+                        <nav>
+                            <h2>Main menu</h2>
+                            <div><NavLink to="/counter" activeClassName="selected">Counter</NavLink></div>
+                            <div><NavLink to="/filter" activeClassName="selected">Filter</NavLink></div>
+                            <div><NavLink to="/articles" activeClassName="selected">Articles</NavLink></div>
+                        </nav>
+                        <Switch>
+                            <Route path="/counter" component={Counter}/>
+                            <Route path="/filter" component={Filter}/>
+                            <Route path="/articles/new" component={NewArticle}/>
+                            <Route path="/articles" component={Articles}/>
+                            <Route path="*" component={NotFound}/>
+                        </Switch>
+                    </div>
+                </LangProvider>
             </ConnectedRouter>
         );
     }
 
-    handleUserChange = (username) => this.setState({ username })
+    handleUserChange = (username) => this.setState({username})
+
+    changeLanguage = language => ev => this.setState({language})
 }
 
 export default App;

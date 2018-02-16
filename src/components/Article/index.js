@@ -5,6 +5,7 @@ import {connect}    from 'react-redux';
 import {deleteArticle, loadArticle}   from '../../AC';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import Loader   from '../Loader';
+import LocalizedText    from '../../LocalizedText';
 
 import CommentList  from '../Comments/CommentList';
 import './style.css';
@@ -56,7 +57,9 @@ class Article extends Component {
                 <button onClick={toggleOpen}>
                     {isOpen ? 'Close' : 'Open'}
                 </button>
-                <button onClick={this.handleDelete}>Delete me</button>
+                <button onClick={this.handleDelete}>
+                    <LocalizedText>delete me</LocalizedText>
+                </button>
                 {this.getBody()}
             </div>
         )
