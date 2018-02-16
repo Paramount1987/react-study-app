@@ -18,5 +18,4 @@ const enhancer = composeEnhancers(
 const store = createStore(reducer, {}, enhancer);
 
 // dev only
-window.store = store;
 export default store;
