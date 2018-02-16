@@ -1,6 +1,7 @@
 import {DELETE_ARTICLE, INCREMENT, UPDATE_FILTER, ADD_COMMENT,
         LOAD_ALL_ARTICLES, LOAD_ARTICLE, LOAD_COMMENTS, START, SUCCESS, FAIL
 }   from '../constants';
+import {push, replace}   from 'react-router-redux';
 
 export function increment() {
     return {
@@ -68,15 +69,23 @@ export function loadArticle(id) {
 
         setTimeout(() => {
             fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
-                .then(res => res.json())
+                .then(res => {
+                    if (res.status >= 400) {
+                        throw new Error(res.statusText)
+                    }
+                    return res.json()
+                })
                 .then(response => dispatch({
                     type: LOAD_ARTICLE + SUCCESS,
                     payload: {id, response}
                 }))
-                .catch(error => dispatch({
-                    type: LOAD_ARTICLE + FAIL,
-                    payload: {id, error}
-                }))
+                .catch(error => {
+                    dispatch({
+                        type: LOAD_ARTICLE + FAIL,
+                        payload: {id, error}
+                    })
+                    dispatch(replace('/error'))
+                })
         }, 1000);
     }
 }
