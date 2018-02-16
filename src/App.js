@@ -10,13 +10,15 @@ import UserForm from './components/UserForm'
 import Filter   from './components/Filters'
 import Counter  from './components/Counter'
 
-import {BrowserRouter as Router, Switch, Route, NavLink}   from 'react-router-dom'
+import {Switch, Route, NavLink}   from 'react-router-dom'
+import {ConnectedRouter}   from 'react-router-redux'
+import history  from './history'
 
 class App extends Component {
 
     render() {
         return (
-            <Router>
+            <ConnectedRouter history = {history}>
                 <div className="App">
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo"/>
@@ -36,7 +38,7 @@ class App extends Component {
                         <Route path = "*" component = {NotFound} />
                     </Switch>
                 </div>
-            </Router>
+            </ConnectedRouter>
         );
     }
 }
