@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes    from 'prop-types'
 import logo from './logo.svg'
 import './App.css'
 
@@ -15,6 +16,19 @@ import {ConnectedRouter}   from 'react-router-redux'
 import history  from './history'
 
 class App extends Component {
+    static childContextTypes = {
+        user: PropTypes.string
+    }
+
+    getChildContext() {
+        return {
+            user: this.state.username
+        }
+    }
+
+    state = {
+        username: ''
+    }
 
     render() {
         return (
@@ -24,6 +38,7 @@ class App extends Component {
                         <img src={logo} className="App-logo" alt="logo"/>
                         <Header />
                     </header>
+                    <UserForm value = {this.state.username} onChange = {this.handleUserChange} />
                     <nav>
                         <h2>Main menu</h2>
                         <div><NavLink to="/counter" activeClassName="selected">Counter</NavLink></div>
@@ -41,6 +56,8 @@ class App extends Component {
             </ConnectedRouter>
         );
     }
+
+    handleUserChange = (username) => this.setState({ username })
 }
 
 export default App;

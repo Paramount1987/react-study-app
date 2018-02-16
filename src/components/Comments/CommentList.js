@@ -1,4 +1,5 @@
 import React, {Component}   from 'react';
+import PropTypes    from 'prop-types';
 import {connect}    from 'react-redux';
 import toggleOpen   from '../decorators/toggleOpen';
 
@@ -11,18 +12,24 @@ import {commentsSelector}   from '../../selectors';
 import Loader   from '../Loader';
 
 class CommentList extends Component {
+    static contextTypes = {
+        store: PropTypes.object,
+        router: PropTypes.object,
+        user: PropTypes.string
+    }
 
     componentWillReceiveProps({isOpen, articleId, comments}) {
         if(isOpen && !comments.get(articleId)) this.props.loadComments(articleId);
     }
 
     render() {
-
         const {isOpen, toggleOpen, articleId, comments} = this.props;
         const commentsList = this.renderCommentList(comments, articleId, isOpen);
+        console.log('--- context', this.context);
 
         return (
             <div>
+                User: {this.context.user}
                 <button onClick={toggleOpen}>
                     {isOpen ? 'Close comments' : 'Open comments'}
                 </button>
@@ -59,9 +66,8 @@ class CommentList extends Component {
     }
 }
 
-export default connect(state => {
-    return {
+export default connect(state => ({
         comments: state.comments
         //comments: commentsSelector(state)
-    }
-},{loadComments})(toggleOpen(CommentList));
+    })
+,{loadComments}, null, {pure: false})(toggleOpen(CommentList));

@@ -24,7 +24,7 @@ const Fade = ({ children, ...props }) => (
     </CSSTransition>
 );
 
-class Article extends PureComponent {
+class Article extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         isOpen: PropTypes.bool,
@@ -95,4 +95,8 @@ class Article extends PureComponent {
 
 export default connect((state, ownProps) => ({
     article: state.articles.entities.get(1*ownProps.id)
-}), {deleteArticle, loadArticle})(Article);
+}),
+    {deleteArticle, loadArticle},
+    null,
+    {pure: false}
+)(Article);
